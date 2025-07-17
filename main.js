@@ -222,3 +222,40 @@ function generateThumbnail(galleryItem) {
         galleryItem.style.backgroundImage = `url(${canvas.toDataURL()})`;
     };
 }
+// ===================================================================
+// FUNGSI BARU UNTUK MENGURUS SEO
+// ===================================================================
+function updateSeoTags(artistData) {
+    const { id, fullName } = artistData;
+
+    // Memperbarui Judul Halaman secara dinamis
+    document.title = `${fullName} - Viral Videos & Photo Gallery`;
+
+    // Memperbarui Deskripsi Halaman secara dinamis
+    const description = `Watch exclusive viral videos and browse the latest HD photo gallery of ${fullName} (@${id.toLowerCase()}). Discover new content updated daily.`;
+    document.querySelector('meta[name="description"]').setAttribute('content', description);
+
+    // Memperbarui Kata Kunci secara dinamis
+    const keywords = `${fullName}, ${id}, viral videos, photo gallery, influencer, selebgram, instagram model, exclusive content`;
+    document.querySelector('meta[name="keywords"]').setAttribute('content', keywords);
+
+    // Membuat Structured Data (untuk hasil pencarian yang lebih kaya)
+    let schemaScript = document.getElementById('schema-org-script');
+    if (!schemaScript) {
+        schemaScript = document.createElement('script');
+        schemaScript.id = 'schema-org-script';
+        schemaScript.type = 'application/ld+json';
+        document.head.appendChild(schemaScript);
+    }
+    const schemaData = {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": fullName,
+        "alternateName": id.toLowerCase(),
+        "description": DEFAULT_BIO,
+        "image": `https://cdn.jsdelivr.net/gh/${GITHUB_USERNAME}/${MAIN_REPO_NAME}@${GITHUB_REPO_BRANCH}/${id}/profile.jpg`,
+        "url": window.location.href,
+        "mainEntityOfPage": { "@type": "WebPage", "@id": window.location.href }
+    };
+    schemaScript.textContent = JSON.stringify(schemaData);
+}
