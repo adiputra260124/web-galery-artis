@@ -1,24 +1,43 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
-    <meta name="description" content="Official gallery of your favorite influencer.">
-<meta name="keywords" content="influencer, model, celebrity, videos, photos, gallery">
-<meta name="robots" content="index, follow">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galeri Artis Pilihan</title>
+
+    <title>Influencer Hub - The Ultimate Viral Video & Photo Gallery</title>
+    <meta name="description" content="Your ultimate hub for viral influencer content. Browse exclusive photo and video galleries from top Instagram models and TikTok stars, all in one place.">
+    <meta name="keywords" content="influencer hub, viral gallery, top models, selebgram collection, influencer directory, exclusive photos, viral videos, tiktok stars">
+    <meta name="robots" content="index, follow">
+
     <link rel="stylesheet" href="style.css">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Influencer Hub",
+      "url": "https://URL-WEBSITE-ANDA.pages.dev", 
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://URL-WEBSITE-ANDA.pages.dev/artist.html?id={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
 </head>
 <body>
     <div class="main-container">
         <header class="home-header">
-            <h1>Pilih Artis Favorit Anda</h1>
-            <p>Jelajahi koleksi eksklusif dari para artis berbakat.</p>
+            <h1>Discover Your Favorite Influencer</h1>
+            <p>Explore exclusive collections from talented artists and models.</p>
         </header>
         <main id="artist-list" class="artist-grid"></main>
     </div>
-
-   
+    
     <script src="main.js"></script>
 </body>
 </html>
