@@ -1,13 +1,13 @@
-// main.js (Versi Final dengan Update SEO)
+// main.js (Versi Final - Sepenuhnya Otomatis)
 
 // ===================================================================
 // PENGATURAN GLOBAL - HANYA EDIT BAGIAN INI
 // ===================================================================
 
 // Ganti dengan username GitHub Anda
-const GITHUB_USERNAME = 'adiputra260124';
+const GITHUB_USERNAME = 'adiputra260124'; 
 // Ganti dengan nama repositori utama Anda
-const MAIN_REPO_NAME = 'web-galery-artis';
+const MAIN_REPO_NAME = 'web-galery-artis'; 
 const GITHUB_REPO_BRANCH = 'main';
 
 // Ganti dengan SATU-SATUNYA link iklan direct link Anda
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function loadHomePage() {
     const artistListContainer = document.getElementById('artist-list');
-    const artistFolders = await fetchRepoContents('');
+    const artistFolders = await fetchRepoContents(''); 
 
     let html = '';
     if (Array.isArray(artistFolders)) {
@@ -38,8 +38,8 @@ async function loadHomePage() {
             if (item.type === 'dir') {
                 const artistId = item.name;
                 const profilePicUrl = `https://cdn.jsdelivr.net/gh/${GITHUB_USERNAME}/${MAIN_REPO_NAME}@${GITHUB_REPO_BRANCH}/${artistId}/profile.jpg`;
-                const fullName = artistId.replace(/_/g, ' ');
-
+                const fullName = artistId.replace(/_/g, ' '); 
+                
                 html += `
                     <a href="artist.html?id=${artistId}" class="artist-card">
                         <img src="${profilePicUrl}" alt="${fullName}" class="artist-card-img" onerror="this.src='https://via.placeholder.com/300x400.png?text=No+Image'">
@@ -68,7 +68,7 @@ async function loadArtistPage() {
     }
 
     const fullName = artistId.replace(/_/g, ' ');
-    // document.title = fullName; // <-- PERUBAHAN DI SINI: Baris ini dinonaktifkan karena akan diatur oleh fungsi SEO
+    document.title = fullName;
 
     const [videoFiles, photoFiles] = await Promise.all([
         fetchRepoContents(`${artistId}/videos/`),
@@ -80,9 +80,6 @@ async function loadArtistPage() {
     if (Array.isArray(photoFiles)) { photoFiles.forEach(file => file.name.match(/\.(jpg|jpeg|png|gif)$/) && galleryItems.push({ type: 'image', url: file.download_url })); }
     galleryItems.sort(() => Math.random() - 0.5);
 
-    // <-- PERUBAHAN DI SINI: Panggil fungsi SEO baru dengan data artis
-    updateSeoTags({ id: artistId, fullName: fullName });
-
     renderProfile(artistId, fullName, galleryItems.length);
     renderGallery(galleryItems);
     setupEventListeners();
@@ -91,7 +88,7 @@ async function loadArtistPage() {
 }
 
 // ===================================================================
-// FUNGSI RENDER & BANTUAN
+// FUNGSI RENDER & BANTUAN (Tidak Perlu Diubah)
 // ===================================================================
 
 async function fetchRepoContents(path) {
@@ -106,9 +103,9 @@ async function fetchRepoContents(path) {
 function renderProfile(artistId, fullName, postCount) {
     const header = document.getElementById('profile-header');
     const profilePicUrl = `https://cdn.jsdelivr.net/gh/${GITHUB_USERNAME}/${MAIN_REPO_NAME}@${GITHUB_REPO_BRANCH}/${artistId}/profile.jpg`;
-
+    
     header.innerHTML = `
-        <img class="profile-avatar" src="${profilePicUrl}" alt="Foto Profil ${fullName}" onerror="this.style.display='none'">
+        <img class="profile-avatar" src="${profilePicUrl}" alt="Foto Profil" onerror="this.style.display='none'">
         <div class="profile-info">
             <div class="profile-title">
                 <h1 class="profile-username">${artistId.toLowerCase()}</h1>
@@ -135,32 +132,23 @@ function renderProfile(artistId, fullName, postCount) {
 function renderGallery(items) {
     const grid = document.getElementById('gallery-grid');
     let html = '';
-    const artistName = document.title.split(' - ')[0]; // Ambil nama artis dari judul halaman untuk SEO
-
     items.forEach(item => {
-        // <-- PERUBAHAN DI SINI: Tambahkan atribut 'title' untuk SEO gambar
         if (item.type === 'video') {
-            html += `<div class="gallery-item video-thumb" data-type="video" data-url="${item.url}" title="Watch video of ${artistName}"><div class="gallery-overlay"><i class="fas fa-play"></i></div></div>`;
+            html += `<div class="gallery-item video-thumb" data-type="video" data-url="${item.url}"><div class="gallery-overlay"><i class="fas fa-play"></i></div></div>`;
         } else if (item.type === 'image') {
-            html += `<div class="gallery-item" data-type="image" style="background-image: url(${item.url})" data-url="${item.url}" title="Image of ${artistName}"><div class="gallery-overlay"><i class="fas fa-image"></i></div></div>`;
+            html += `<div class="gallery-item" data-type="image" style="background-image: url(${item.url})" data-url="${item.url}"><div class="gallery-overlay"><i class="fas fa-image"></i></div></div>`;
         }
     });
     grid.innerHTML = html;
-    document.querySelectorAll('.video-thumb').forEach(item => generateThumbnail(item));
 }
 
 function setupEventListeners() {
     const openDirectLink = () => window.open(GLOBAL_DIRECT_LINK, '_blank');
 
     document.body.addEventListener('click', (e) => {
-        // Hentikan agar klik share tidak membuka link iklan
-        if (e.target.closest('#share-profile-btn')) {
-            return;
-        }
-
         if (e.target.closest('.direct-link-trigger, .gallery-item, .profile-avatar')) {
-            e.preventDefault();
-            openDirectLink();
+             e.preventDefault();
+             openDirectLink();
         }
 
         const galleryItem = e.target.closest('.gallery-item[data-type]');
@@ -171,7 +159,7 @@ function setupEventListeners() {
 
     const shareProfileBtn = document.getElementById('share-profile-btn');
     if(shareProfileBtn) {
-        shareProfileBtn.addEventListener('click', (e) => {
+        shareProfileBtn.addEventListener('click', () => {
             if (navigator.share) {
                 navigator.share({ title: document.title, text: `Lihat galeri dari ${document.title}`, url: window.location.href });
             } else {
@@ -204,22 +192,19 @@ function showLightbox(url, type) {
     };
 
     downloadBtn.onclick = () => {
-        fetch(url).then(resp => resp.blob()).then(blob => {
-            const blobUrl = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = blobUrl;
-            a.download = url.split('/').pop();
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(blobUrl);
-        }).catch(() => alert('Gagal mengunduh file.'));
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = url.split('/').pop();
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     };
 
     lightbox.style.display = 'flex';
     document.getElementById('lightbox-close').onclick = () => lightbox.style.display = 'none';
 }
 
+// Fungsi untuk generate thumbnail (tidak berubah)
 function generateThumbnail(galleryItem) {
     const videoUrl = galleryItem.dataset.url;
     if (!videoUrl) return;
@@ -236,42 +221,4 @@ function generateThumbnail(galleryItem) {
         canvas.getContext('2d').drawImage(video, 0, 0);
         galleryItem.style.backgroundImage = `url(${canvas.toDataURL()})`;
     };
-}
-
-// ===================================================================
-// FUNGSI BARU UNTUK MENGURUS SEO
-// ===================================================================
-function updateSeoTags(artistData) {
-    const { id, fullName } = artistData;
-
-    // Memperbarui Judul Halaman secara dinamis
-    document.title = `${fullName} - Viral Videos & Photo Gallery`;
-
-    // Memperbarui Deskripsi Halaman secara dinamis
-    const description = `Watch exclusive viral videos and browse the latest HD photo gallery of ${fullName} (@${id.toLowerCase()}). Discover new content updated daily.`;
-    document.querySelector('meta[name="description"]').setAttribute('content', description);
-
-    // Memperbarui Kata Kunci secara dinamis
-    const keywords = `${fullName}, ${id}, viral videos, photo gallery, influencer, selebgram, instagram model, exclusive content`;
-    document.querySelector('meta[name="keywords"]').setAttribute('content', keywords);
-
-    // Membuat Structured Data (untuk hasil pencarian yang lebih kaya)
-    let schemaScript = document.getElementById('schema-org-script');
-    if (!schemaScript) {
-        schemaScript = document.createElement('script');
-        schemaScript.id = 'schema-org-script';
-        schemaScript.type = 'application/ld+json';
-        document.head.appendChild(schemaScript);
-    }
-    const schemaData = {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        "name": fullName,
-        "alternateName": id.toLowerCase(),
-        "description": DEFAULT_BIO,
-        "image": `https://cdn.jsdelivr.net/gh/${GITHUB_USERNAME}/${MAIN_REPO_NAME}@${GITHUB_REPO_BRANCH}/${id}/profile.jpg`,
-        "url": window.location.href,
-        "mainEntityOfPage": { "@type": "WebPage", "@id": window.location.href }
-    };
-    schemaScript.textContent = JSON.stringify(schemaData);
 }
