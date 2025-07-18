@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const path = window.location.pathname.split('/').pop();
     if (path === 'index.html' || path === '' || path.startsWith('web-galery-artis')) {
         loadHomePage();
-    } else if (path === 'artist.html') {
+     } else if (path === 'artist.html' || path === 'artist') { // <--- PERUBAHAN DI SINI
         loadArtistPage();
     }
 });
