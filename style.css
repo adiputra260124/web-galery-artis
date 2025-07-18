@@ -1,36 +1,131 @@
-/* ... (SEMUA KODE CSS DARI VERSI SEBELUMNYA) ... */
+/* style.css (Versi Baru dengan Desain Elegan) */
 
-/* Gaya untuk Lightbox Footer dan Tombol Baru */
-.lightbox-footer {
+:root {
+    --background-color: #121212; /* Warna utama gelap */
+    --card-bg-color: #1e1e1e;    /* Warna kartu */
+    --primary-text-color: #e0e0e0; /* Warna teks utama */
+    --secondary-text-color: #a0a0a0; /* Warna teks sekunder */
+    --border-color: #2c2c2c;      /* Warna border */
+    --live-gradient-start: #d62976;
+    --live-gradient-end: #fa7e1e;
+    --white: #FFFFFF;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { 
+    font-family: 'Inter', sans-serif; 
+    background-color: var(--background-color); 
+    color: var(--primary-text-color); 
+}
+a { text-decoration: none; color: inherit; }
+
+/* === TAMPILAN HALAMAN UTAMA (index.html) === */
+
+.home-header { text-align: center; padding: 50px 20px; }
+.home-header h1 { font-size: 2.5rem; margin-bottom: 10px; color: var(--white); }
+.home-header p { font-size: 1.1rem; color: var(--secondary-text-color); }
+
+.artist-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+    gap: 25px; 
+    max-width: 1400px; 
+    margin: 0 auto; 
+    padding: 20px; 
+}
+
+.artist-card {
+    background-color: var(--card-bg-color);
+    border-radius: 16px;
+    overflow: hidden;
+    display: block;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--border-color);
+}
+
+.artist-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+}
+
+.artist-card-image-wrapper {
+    position: relative;
+    padding: 4px; /* Ruang untuk border gradien */
+}
+
+.artist-card-image-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 12px;
+    border: 2px solid transparent;
+    background: linear-gradient(45deg, var(--live-gradient-start), var(--live-gradient-end)) border-box;
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) padding-box, 
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    animation: glow 2s ease-in-out infinite;
+}
+
+@keyframes glow {
+    0% { opacity: 0.7; }
+    50% { opacity: 1; }
+    100% { opacity: 0.7; }
+}
+
+.artist-card-img {
+    width: 100%;
+    aspect-ratio: 1 / 1.1;
+    object-fit: cover;
+    display: block;
+    border-radius: 8px;
+}
+
+.artist-card-info {
+    padding: 15px;
+}
+
+.artist-card-info h3 {
+    font-size: 1.2rem;
+    color: var(--white);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.artist-card-details {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 15px;
-    background-color: #2a2a2a;
+    margin-top: 8px;
 }
-.btn-lightbox {
-    background-color: #444;
-    color: #fff;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 6px;
-    cursor: pointer;
+
+.artist-card-details span {
+    font-size: 0.9rem;
+    color: var(--secondary-text-color);
+}
+
+.artist-live-stats {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background-color: rgba(255, 0, 0, 0.8);
+    color: var(--white);
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-size: 0.8rem;
     font-weight: 600;
-    transition: background-color 0.2s;
 }
-.btn-lightbox:hover {
-    background-color: #555;
+
+
+/* === TAMPILAN HALAMAN ARTIS (artist.html) - Minor Adjustments === */
+
+.profile-header, .filter-tabs {
+    border-color: var(--border-color);
 }
-.btn-lightbox i {
-    margin-right: 8px;
-}
-.lightbox-close-btn {
-    font-size: 28px;
-    color: #aaa;
-    cursor: pointer;
-    line-height: 1;
-    transition: color 0.2s;
-}
-.lightbox-close-btn:hover {
-    color: #fff;
-}
+/* ... (sisa kode style.css dari versi sebelumnya tidak perlu diubah) ... */
