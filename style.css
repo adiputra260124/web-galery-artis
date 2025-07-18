@@ -1,40 +1,54 @@
-/* style.css (Versi Baru dengan Desain Elegan) */
+/* style.css (Versi Final dengan Iklan Native & Tampilan Profesional) */
 
 :root {
-    --background-color: #121212; /* Warna utama gelap */
-    --card-bg-color: #1e1e1e;    /* Warna kartu */
-    --primary-text-color: #e0e0e0; /* Warna teks utama */
-    --secondary-text-color: #a0a0a0; /* Warna teks sekunder */
-    --border-color: #2c2c2c;      /* Warna border */
+    --background-color: #121212;
+    --card-bg-color: #1e1e1e;
+    --primary-text-color: #e0e0e0;
+    --secondary-text-color: #a0a0a0;
+    --border-color: #2c2c2c;
     --live-gradient-start: #d62976;
     --live-gradient-end: #fa7e1e;
+    --live-dot-color: #ff3b30;
     --white: #FFFFFF;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { 
-    font-family: 'Inter', sans-serif; 
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
     background-color: var(--background-color); 
     color: var(--primary-text-color); 
+    line-height: 1.5;
 }
 a { text-decoration: none; color: inherit; }
 
 /* === TAMPILAN HALAMAN UTAMA (index.html) === */
-
 .home-header { text-align: center; padding: 50px 20px; }
 .home-header h1 { font-size: 2.5rem; margin-bottom: 10px; color: var(--white); }
 .home-header p { font-size: 1.1rem; color: var(--secondary-text-color); }
 
+/* Ganti CSS untuk .artist-grid dengan yang ini */
+
 .artist-grid { 
-    display: grid; 
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
-    gap: 25px; 
+    display: grid;
+    /* Pengaturan default untuk mobile: 3 kolom */
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 10px; /* Jarak antar kartu lebih kecil di mobile */
     max-width: 1400px; 
     margin: 0 auto; 
-    padding: 20px; 
+    padding: 15px; 
 }
 
-.artist-card {
+/* Penyesuaian untuk layar yang lebih besar (Tablet & Desktop) */
+@media (min-width: 768px) {
+    .artist-grid {
+        /* Kembali ke mode otomatis, tapi dengan kartu yang lebih kecil */
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 25px; /* Jarak antar kartu lebih besar di desktop */
+        padding: 20px;
+    }
+}
+
+.artist-card, .ad-card {
     background-color: var(--card-bg-color);
     border-radius: 16px;
     overflow: hidden;
@@ -43,7 +57,6 @@ a { text-decoration: none; color: inherit; }
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border: 1px solid var(--border-color);
 }
-
 .artist-card:hover {
     transform: translateY(-8px);
     box-shadow: 0 12px 40px rgba(0,0,0,0.3);
@@ -51,22 +64,16 @@ a { text-decoration: none; color: inherit; }
 
 .artist-card-image-wrapper {
     position: relative;
-    padding: 4px; /* Ruang untuk border gradien */
+    padding: 4px;
 }
-
 .artist-card-image-wrapper::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    top: 0; left: 0; right: 0; bottom: 0;
     border-radius: 12px;
     border: 2px solid transparent;
     background: linear-gradient(45deg, var(--live-gradient-start), var(--live-gradient-end)) border-box;
-    -webkit-mask: 
-        linear-gradient(#fff 0 0) padding-box, 
-        linear-gradient(#fff 0 0);
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: destination-out;
     mask-composite: exclude;
     animation: glow 2s ease-in-out infinite;
@@ -86,10 +93,7 @@ a { text-decoration: none; color: inherit; }
     border-radius: 8px;
 }
 
-.artist-card-info {
-    padding: 15px;
-}
-
+.artist-card-info { padding: 15px; }
 .artist-card-info h3 {
     font-size: 1.2rem;
     color: var(--white);
@@ -97,14 +101,12 @@ a { text-decoration: none; color: inherit; }
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
 .artist-card-details {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 8px;
 }
-
 .artist-card-details span {
     font-size: 0.9rem;
     color: var(--secondary-text-color);
@@ -113,19 +115,136 @@ a { text-decoration: none; color: inherit; }
 .artist-live-stats {
     display: flex;
     align-items: center;
-    gap: 5px;
-    background-color: rgba(255, 0, 0, 0.8);
-    color: var(--white);
-    padding: 3px 8px;
-    border-radius: 5px;
-    font-size: 0.8rem;
+    gap: 6px;
+    background-color: rgba(0, 0, 0, 0.4);
+    color: var(--primary-text-color);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.85rem;
     font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.live-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--live-dot-color);
+    border-radius: 50%;
+    animation: live-pulse 1.5s infinite;
+}
+@keyframes live-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7); }
+    70% { box-shadow: 0 0 0 7px rgba(255, 59, 48, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); }
 }
 
-
-/* === TAMPILAN HALAMAN ARTIS (artist.html) - Minor Adjustments === */
-
-.profile-header, .filter-tabs {
-    border-color: var(--border-color);
+.ad-card {
+    padding: 10px;
+    aspect-ratio: 1 / 1.1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-/* ... (sisa kode style.css dari versi sebelumnya tidak perlu diubah) ... */
+.ad-card iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    overflow: hidden;
+}
+
+/* === TAMPILAN HALAMAN ARTIS (artist.html) === */
+.container { max-width: 975px; margin: 30px auto; padding: 0 20px; }
+.loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--background-color); z-index: 9999; display: flex; justify-content: center; align-items: center; }
+.spinner { border: 5px solid rgba(0, 0, 0, 0.1); border-radius: 50%; border-top: 5px solid var(--primary-text-color); width: 50px; height: 50px; animation: spin 1s linear infinite; }
+.profile-header { display: flex; align-items: center; margin-bottom: 24px; border-bottom: 1px solid var(--border-color); padding-bottom: 24px; }
+.profile-avatar { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; cursor: pointer; margin-right: 30px; flex-shrink: 0; }
+.profile-info { flex-grow: 1; }
+.profile-title { display: flex; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 20px; }
+.profile-username { font-size: 28px; font-weight: 300; }
+.btn { border: 1px solid var(--border-color); border-radius: 8px; padding: 7px 16px; font-weight: 600; font-size: 14px; cursor: pointer; background-color: #363636; color: var(--primary-text-color); }
+.profile-stats { display: flex; gap: 40px; margin-bottom: 20px; font-size: 16px; }
+.social-links { display: flex; gap: 15px; margin-top: 15px; }
+.social-links a { font-size: 24px; transition: opacity 0.2s; }
+.social-links a:hover { opacity: 0.7; }
+.gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 20px; }
+.gallery-item { position: relative; aspect-ratio: 1 / 1; cursor: pointer; background-color: #363636; background-size: cover; background-position: center; border-radius: 4px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.gallery-item:hover .gallery-overlay { opacity: 1; }
+.gallery-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.3); color: var(--white); display: flex; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.2s ease-in-out; }
+
+.lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.9); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 15px; }
+.lightbox-frame { background-color: #1c1c1c; border-radius: 12px; display: flex; flex-direction: column; width: 100%; max-width: 900px; max-height: 95vh; overflow: hidden; }
+.lightbox-body { flex-grow: 1; background-color: #000; }
+.lightbox-body video, .lightbox-body img { width: 100%; height: 100%; object-fit: contain; }
+.lightbox-footer { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background-color: #2a2a2a; }
+.btn-lightbox { background-color: #444; color: #fff; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: background-color 0.2s; }
+.btn-lightbox:hover { background-color: #555; }
+.btn-lightbox i { margin-right: 8px; }
+.lightbox-close-btn { font-size: 28px; color: #aaa; cursor: pointer; line-height: 1; transition: color 0.2s; }
+.lightbox-close-btn:hover { color: #fff; }
+
+@media (max-width: 768px) {
+    .profile-header { flex-direction: column; text-align: center; }
+    .profile-avatar { width: 100px; height: 100px; margin: 0 auto 15px auto; }
+    .gallery-grid { gap: 3px; }
+}
+/* === EFEK BACKGROUND GRADASI DI HEADER === */
+
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60vh; /* Tinggi background sekitar 60% dari layar */
+    background-size: cover;
+    background-position: center 20%; /* Fokus sedikit ke atas pada gambar */
+    z-index: -1; /* Posisikan di belakang semua konten */
+    opacity: 0.5; /* Buat gambar sedikit redup */
+}
+
+/* Ini adalah lapisan gradien di atas gambar */
+.hero-background::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* Gradasi dari semi-transparan ke warna background utama */
+    background: linear-gradient(to bottom, rgba(18, 18, 18, 0.1) 50%, var(--background-color) 95%);
+}
+
+.home-header {
+    /* Buat header menjadi transparan agar background terlihat */
+    background-color: transparent;
+    position: relative; /* Pastikan teks header berada di atas background */
+    z-index: 1;
+}
+/* === GAYA UNTUK TOMBOL SEE NEXT === */
+
+.pagination-container {
+    text-align: center;
+    padding: 30px 20px;
+}
+
+.btn-load-more {
+    background-color: var(--card-bg-color);
+    color: var(--primary-text-color);
+    border: 1px solid var(--border-color);
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 12px 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-load-more:hover {
+    background-color: #2c2c2c;
+    transform: translateY(-2px);
+}
+
+.btn-load-more:disabled {
+    background-color: var(--border-color);
+    color: var(--secondary-text-color);
+    cursor: not-allowed;
+    transform: none;
+}
